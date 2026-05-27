@@ -786,11 +786,11 @@
       <h3 class="display">Aplicação à mentoria</h3>
       <p>Conte um pouco sobre o seu momento. Cada aplicação é analisada por mim, pessoalmente.</p>
 
-      <div class="field"><label>01 · Seu nome completo</label><input required placeholder="Como prefere ser chamada(o)" /></div>
-      <div class="field"><label>02 · Seu melhor e-mail</label><input type="email" required placeholder="voce@email.com" /></div>
-      <div class="field"><label>03 · Número de telefone</label><input type="tel" required placeholder="(11) 90000-0000" /></div>
-      <div class="field"><label>04 · Profissão e área de atuação</label><input required placeholder="Ex.: Dentista, ortodontia adulto" /></div>
-      <div class="field"><label>05 · Perfil profissional do Instagram</label><input placeholder="@seuperfil" /></div>
+      <div class="field"><label>01 · Seu nome completo</label><input name="nome" required placeholder="Como prefere ser chamada(o)" /></div>
+      <div class="field"><label>02 · Seu melhor e-mail</label><input name="email" type="email" required placeholder="voce@email.com" /></div>
+      <div class="field"><label>03 · Número de telefone</label><input name="telefone" type="tel" required placeholder="(11) 90000-0000" /></div>
+      <div class="field"><label>04 · Profissão e área de atuação</label><input name="profissao" required placeholder="Ex.: Dentista, ortodontia adulto" /></div>
+      <div class="field"><label>05 · Perfil profissional do Instagram</label><input name="instagram" placeholder="@seuperfil" /></div>
 
       <div class="field">
         <label>06 · Faturamento mensal médio hoje</label>
@@ -820,6 +820,15 @@
           <label><input type="radio" name="inv" /><span>Ainda não tenho esse valor disponível no momento</span></label>
         </div>
       </div>
+
+      <!-- ── UTM hidden fields (preenchidos automaticamente via JS) ── -->
+      <input type="hidden" name="utm_source"   id="utm_source" />
+      <input type="hidden" name="utm_medium"   id="utm_medium" />
+      <input type="hidden" name="utm_campaign" id="utm_campaign" />
+      <input type="hidden" name="utm_content"  id="utm_content" />
+      <input type="hidden" name="utm_term"     id="utm_term" />
+      <input type="hidden" name="page_url"     id="page_url" />
+      <input type="hidden" name="referrer"     id="referrer" />
 
       <button class="btn" type="submit">Enviar aplicação <span class="arr"></span></button>
       <p class="thanks">Recebido — entraremos em contato em até 2 dias úteis.</p>
@@ -907,6 +916,22 @@
 
 <!-- ─────────────── JS ─────────────── -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── UTM capture ──────────────────────────────────────────────
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const utms = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    utms.forEach(key => {
+      const el = document.getElementById(key);
+      if (el) el.value = params.get(key) || sessionStorage.getItem(key) || '';
+      // persiste na sessão para capturar mesmo se o usuário navegar internamente
+      if (params.get(key)) sessionStorage.setItem(key, params.get(key));
+    });
+    const urlEl = document.getElementById('page_url');
+    if (urlEl) urlEl.value = window.location.href;
+    const refEl = document.getElementById('referrer');
+    if (refEl) refEl.value = document.referrer || '';
+  })();
+
   // nav scroll state
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 80);
