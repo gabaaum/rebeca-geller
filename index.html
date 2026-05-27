@@ -893,20 +893,53 @@
 <!-- ─────────────── JS ─────────────── -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── UTM capture ──────────────────────────────────────────────
+  // Suporta 3 origens: URL própria, sessionStorage e postMessage do parent
+  const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+
+  function applyUtms(source) {
+    UTM_KEYS.forEach(key => {
+      const val = source[key] || source.get?.(key) || '';
+      if (!val) return;
+      const el = document.getElementById(key);
+      if (el) el.value = val;
+      sessionStorage.setItem(key, val);
+    });
+  }
+
+  function fillFromStorage() {
+    UTM_KEYS.forEach(key => {
+      const el = document.getElementById(key);
+      if (el && !el.value) el.value = sessionStorage.getItem(key) || '';
+    });
+  }
+
+  // 1. Tenta da própria URL do iframe
   (function(){
     const params = new URLSearchParams(window.location.search);
-    const utms = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-    utms.forEach(key => {
-      const el = document.getElementById(key);
-      if (el) el.value = params.get(key) || sessionStorage.getItem(key) || '';
-      // persiste na sessão para capturar mesmo se o usuário navegar internamente
-      if (params.get(key)) sessionStorage.setItem(key, params.get(key));
-    });
+    const hasUtm = UTM_KEYS.some(k => params.get(k));
+    if (hasUtm) {
+      applyUtms(params);
+    } else {
+      // 2. Fallback: sessionStorage (visitas anteriores)
+      fillFromStorage();
+      // 3. Solicita UTMs ao parent via postMessage (caso seja iframe)
+      try {
+        window.parent.postMessage({ type: 'request_utms' }, '*');
+      } catch(e) {}
+    }
     const urlEl = document.getElementById('page_url');
     if (urlEl) urlEl.value = window.location.href;
     const refEl = document.getElementById('referrer');
     if (refEl) refEl.value = document.referrer || '';
   })();
+
+  // 4. Escuta resposta do parent com as UTMs
+  window.addEventListener('message', function(e) {
+    if (!e.data || e.data.type !== 'utm_response') return;
+    applyUtms(e.data);
+    const urlEl = document.getElementById('page_url');
+    if (urlEl && e.data.page_url) urlEl.value = e.data.page_url;
+  });
 
   // nav scroll state
   const nav = document.getElementById('nav');
