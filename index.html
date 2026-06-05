@@ -119,16 +119,22 @@
 
   /* ───── hero ───── */
   .hero{position:relative;min-height:100vh;color:var(--cream);background:#080f1a;overflow:hidden;display:flex;flex-direction:column}
-  .hero-bg{position:absolute;inset:0}
-  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:30% 30%;filter:saturate(.92) contrast(1.04)}
-  .hero-bg::after{
+  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:100vh}
+  .hero-headline{display:flex;flex-direction:column;justify-content:center;padding:140px 48px 48px var(--gutter);max-width:700px}
+  .hero-visual{position:relative;overflow:hidden}
+  .hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.92) contrast(1.04)}
+  .hero-visual::after{
     content:"";position:absolute;inset:0;
     background:
       linear-gradient(180deg, rgba(8,15,26,.6) 0%, rgba(8,15,26,.25) 30%, rgba(8,15,26,.15) 55%, rgba(8,15,26,.9) 100%),
       linear-gradient(90deg, rgba(8,15,26,.78) 0%, rgba(8,15,26,.25) 45%, rgba(8,15,26,0) 75%);
   }
-  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-rows:1fr auto;padding-top:140px;padding-bottom:48px}
-  .hero-headline{max-width:1100px}
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    .hero-visual{min-height:45vh;order:-1}
+    .hero-visual::after{background:linear-gradient(180deg, rgba(8,15,26,.3) 0%, rgba(8,15,26,.9) 100%)}
+    .hero-headline{padding:48px var(--gutter);max-width:none}
+  }
   .hero-meta{
     font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
     color:var(--gold);display:flex;align-items:center;gap:14px;margin-bottom:30px;
@@ -486,9 +492,6 @@
 
 <!-- ─────────────── HERO ─────────────── -->
 <section class="hero" id="top" data-screen-label="Hero">
-  <div class="hero-bg" aria-hidden="true">
-    <img src="assets/hero.jpg" alt="" />
-  </div>
   <div class="wrap hero-grid">
     <div class="hero-headline">
       <div class="hero-meta"><i></i> Mentoria individual · Seleção por aplicação</div>
@@ -508,6 +511,9 @@
       </div>
     </div>
 
+    <div class="hero-visual" aria-hidden="true">
+      <img src="assets/hero.jpg" alt="" />
+    </div>
   </div>
 </section>
 
