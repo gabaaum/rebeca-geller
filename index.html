@@ -119,8 +119,8 @@
 
   /* ───── hero ───── */
   .hero{position:relative;min-height:100vh;color:var(--cream);background:#080f1a;overflow:hidden;display:flex;flex-direction:column}
-  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1.4fr 1fr;gap:0;min-height:100vh}
-  .hero-headline{display:flex;flex-direction:column;justify-content:center;padding:140px 24px 48px var(--gutter);max-width:none}
+  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1.4fr 1fr;gap:0;min-height:100vh;padding-left:var(--gutter);padding-right:0}
+  .hero-headline{display:flex;flex-direction:column;justify-content:center;padding:140px 24px 48px 0;max-width:none}
   .hero-visual{position:relative;overflow:hidden;width:100%;height:100%}
   .hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.92) contrast(1.04)}
   .hero-visual::after{
@@ -143,8 +143,7 @@
   .hero-meta i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold)}
   .hero h1{font-size:clamp(36px, 5.6vw, 88px);margin:0}
   .hero h1 .line{display:block}
-  .hero h1 .indent{padding-left:clamp(12px, 3vw, 48px)}
-  .hero-sub{margin-top:36px;max-width:560px;font-size:17px;line-height:1.6;color:rgba(241,236,224,.85)}
+  .hero-sub{margin-top:36px;font-size:17px;line-height:1.6;color:rgba(241,236,224,.85)}
   .hero-actions{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap}
   .hero-actions .btn{color:var(--cream)}
   .hero-actions .btn--gold{color:var(--ink)}
@@ -493,7 +492,7 @@
 
 <!-- ─────────────── HERO ─────────────── -->
 <section class="hero" id="top" data-screen-label="Hero">
-  <div class="wrap hero-grid">
+  <div class="hero-grid">
     <div class="hero-headline">
       <div class="hero-meta"><i></i> Mentoria individual · Seleção por aplicação</div>
       <h1 class="display">
