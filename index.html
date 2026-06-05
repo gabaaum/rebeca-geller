@@ -119,9 +119,9 @@
 
   /* ───── hero ───── */
   .hero{position:relative;min-height:100vh;color:var(--cream);background:#080f1a;overflow:hidden;display:flex;flex-direction:column}
-  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:100vh}
-  .hero-headline{display:flex;flex-direction:column;justify-content:center;padding:140px 48px 48px var(--gutter);max-width:700px}
-  .hero-visual{position:relative;overflow:hidden}
+  .hero-grid{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1.4fr 1fr;gap:0;min-height:100vh}
+  .hero-headline{display:flex;flex-direction:column;justify-content:center;padding:140px 24px 48px var(--gutter);max-width:none}
+  .hero-visual{position:relative;overflow:hidden;width:100%;height:100%}
   .hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.92) contrast(1.04)}
   .hero-visual::after{
     content:"";position:absolute;inset:0;
@@ -129,6 +129,7 @@
       linear-gradient(180deg, rgba(8,15,26,.6) 0%, rgba(8,15,26,.25) 30%, rgba(8,15,26,.15) 55%, rgba(8,15,26,.9) 100%),
       linear-gradient(90deg, rgba(8,15,26,.78) 0%, rgba(8,15,26,.25) 45%, rgba(8,15,26,0) 75%);
   }
+  .hero h1 .indent{padding-left:clamp(8px,1.2vw,20px)}
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;grid-template-rows:auto 1fr}
     .hero-visual{min-height:45vh;order:-1}
